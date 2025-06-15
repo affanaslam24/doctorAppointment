@@ -4,7 +4,7 @@ import doctorModel from "../models/doctorModel.js";
 const doctorList = async (req, res) => {
 
     try{
-        const doctors= await doctorModel.find({}).select('-password', '-email')
+        const doctors= await doctorModel.find({}).select('-email')
 
         res.status(200).json({ success: true, message: "Doctor List", doctors })
     }
