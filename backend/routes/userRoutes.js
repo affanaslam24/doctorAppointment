@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser,loginUser, getProfile, updateProfile, bookAppointment } from '../controller/userController.js';
+import { registerUser,loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment } from '../controller/userController.js';
 import authUser from '../middleware/authUser.js';
 import upload from '../middleware/multer.js';
 
@@ -20,10 +20,15 @@ userRouter.get('/get-profile', authUser, getProfile);
 // to update the profile, and for that, we will use authUser middleware
 userRouter.post('/update-profile', upload.single('image'), authUser,updateProfile);
 
+userRouter.get('/list-appointment', authUser, listAppointment);
 
 
 //appointment route
 userRouter.post('/book-appointment', authUser, bookAppointment);
+
+userRouter.post('/cancel-appointment', authUser, cancelAppointment);
+
+
 
 export default userRouter;
 

@@ -10,7 +10,7 @@ const addDoctor = async (req, res) => {
 
     try {
         //we take these data
-        const { name, email, password, specialization, experience, about, fees, address } = req.body;
+        const { name, email, password, degree,specialization, experience, about, fees, address } = req.body;
         //we use middleware like multer to upload the image
 
         //to save the above const file
@@ -20,7 +20,7 @@ const addDoctor = async (req, res) => {
         //now, we can save this data to our database
 
         //first we check if the required data is there or not
-        if(!name || !email || !password || !specialization || !experience || !about || !fees || !address)
+        if(!name || !degree || !email || !password || !specialization || !experience || !about || !fees || !address)
         {
             return res.json({success: false, message: "Please fill all the fields"})
         }
@@ -65,6 +65,7 @@ const addDoctor = async (req, res) => {
             password: hashedPassword,
             image: imageUrl,
             specialization,
+            degree,
             experience,
             about,
             fees,

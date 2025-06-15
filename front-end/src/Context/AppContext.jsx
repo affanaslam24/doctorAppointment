@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext} from "react";
-import { doctors } from "../assets/assets_frontend/assets";
+// import { doctors } from "../assets/assets_frontend/assets";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -12,30 +12,30 @@ const AppContextProvider =(props)=>{
 
     const [token, setToken] = useState(localStorage.getItem('token') || false)
     const [userData, setUserData] = useState(false)
-    //const [setDoctors] = useState([])
+    const [doctors,setDoctors] = useState([])
 
 
-    // const getDoctorData = async () => {
-    //     try{
+    const getDoctorData = async () => {
+        try{
 
-    //         const {data} = await axios.get(backendURL + '/api/doctor/list')
-    //         if(data.success)
-    //             {
-    //                 //the get-profile function in the backend will return the user data, go check
-    //                 setDoctors(data.doctors)}
-    //                 else
-    //                 {
-    //                     toast.error(data.message)
-    //                 }
+            const {data} = await axios.get(backendURL + '/api/doctor/list')
+            if(data.success)
+                {
+                    //the get-profile function in the backend will return the user data, go check
+                    setDoctors(data.doctors)}
+                    else
+                    {
+                        toast.error(data.message)
+                    }
 
-    //     }
-    //     catch(err){
-    //         console.log(err.message)
-    //         toast.error(err.message)
-    //     }
+        }
+        catch(err){
+            console.log(err.message)
+            toast.error(err.message)
+        }
     
     
-    // }
+    }
 
     //download the userdatA FROM THE backedn database
 
@@ -72,13 +72,14 @@ const AppContextProvider =(props)=>{
         backendURL,
         userData, setUserData,
         loadUserData, 
+        getDoctorData
         
     }
 
-    // useEffect(() => {
-    //     //if there exists a token, then pass the token to the backend through the above fucntiion
-    //     getDoctorData()
-    // }, []) //pass the token
+    useEffect(() => {
+        //if there exists a token, then pass the token to the backend through the above fucntiion
+        getDoctorData()
+    }, []) //pass the token
 
     useEffect(() => {
 

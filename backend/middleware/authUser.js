@@ -4,18 +4,6 @@ import jwt from 'jsonwebtoken';
 // req res and a middleware next
 const authUser = async (req, res, next) => {
     try {
-        // const authHeader = req.headers.authorization;
-
-        // if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        //     return res.status(401).json({ success: false, message: 'Unauthorized: Token missing or malformed' });
-        // }
-
-        // const token = authHeader.split(" ")[1]; 
-
-
-
-
-
         const {token} = req.headers
         console.log(token);
         //this will split the token from the header and get the token
@@ -31,11 +19,9 @@ const authUser = async (req, res, next) => {
         console.log(decoded);
         // this will give us the decoded token, which wass the "user._id" we used to create the token
         //this will verify the token using the secret key
-       
         req.userId = decoded.id; // by doing this, we are adding the id we got from our token to the req body
         //go to the userController.js file
         console.log(req.userId);
-
         //if the token is valid, then we will call the next middleware
         // this will be the add doctor middleware
         next();

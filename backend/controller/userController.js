@@ -77,8 +77,6 @@ const registerUser = async (req, res) => {
     }
 
 }
-
-
 //api function for login user
 const loginUser = async (req, res) => {
     try{
@@ -127,8 +125,6 @@ const loginUser = async (req, res) => {
 
     }
 }
-
-
 const getProfile = async (req, res) => {
     try{
         const userId = req.userId;
@@ -149,7 +145,6 @@ const getProfile = async (req, res) => {
 
     }
 }
-
 //api to update user profile
 const updateProfile = async (req, res) => {
     try{
@@ -193,10 +188,7 @@ const updateProfile = async (req, res) => {
     }
 
 }
-
-
 //api to book appointment
-
 const bookAppointment = async (req, res) => {
     try{
         const userId = req.userId;
@@ -259,22 +251,22 @@ const bookAppointment = async (req, res) => {
         //also, save the new slot inofrmation in the doctor slot
         await doctorModel.findByIdAndUpdate(docId, {slots_booked});
 
-        res.json({success: true, message:"succesfully booked appointment"}); // we are sedning the whole user Data
+        return res.json({success: true, message:"succesfully booked appointment"}); // we are sedning the whole user Data
 
 
 
 
 
-        if( !docId || !slotDate || !slotTime || !amount)
-        {
-            return res.json({success: false, message: "Please fill all the fields"})
-        }
+    //     if( !docId || !slotDate || !slotTime || !amount)
+    //     {   
+    //         return res.json({success: false, message: "Please fill all the fields"})
+    //     }
         
-        //itll use userId to find the user in the database and then update based on the things
-        await userModel.findByIdAndUpdate(userId, {docId, slotDate, slotTime, amount});
+    //     //itll use userId to find the user in the database and then update based on the things
+    //     await userModel.findByIdAndUpdate(userId, {docId, slotDate, slotTime, amount});
         
         
-        res.json({success: true, message:"succesfully booked appointment"}); // we are sedning the whole user Data
+    //     res.json({success: true, message:"succesfully booked appointment"}); // we are sedning the whole user Data
     }
     catch(error){
         console.log(error.message);
@@ -285,5 +277,62 @@ const bookAppointment = async (req, res) => {
 }
 
 
-export {registerUser, loginUser, getProfile, updateProfile, bookAppointment};
+// API to get user appointments
+const listAppointment = async (req, res) => {
+    try{
+        const userId = req.userId;
+        //we will get the userId from the authUser middleware
+        const appointments = await appointmentModel.find({userId}).sort({date: -1});
+        //this will get all the appointments of the user and sort them by date in descending order
+        res.json({success: true, appointments});
+    }
+    catch(error){
+        console.log(error.message);
+        res.status(500).json({ success: false, message: "Internal server error", error: error.message });
+
+    }
+
+}
+
+//API to cancel appointment
+const cancelAppointment = async (req, res) => {
+    try{
+        const userId = req.userId;
+        const { appointmentId } = req.body;
+
+        //find the appointment by id and delete it
+        const appointmentData = await appointmentModel.findById(appointmentId);
+        
+        if(appointmentData.userId !== userId)
+        {
+            return res.json({success: false, message: "You are not authorized to cancel this appointment"})
+        }
+
+        await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled: true});
+
+        const {docId, slotDate, slotTime} = appointmentData;
+
+        const doctorData = await doctorModel.findById(docId);
+
+        let slots_booked = doctorData.slots_booked;
+
+        slots_booked[slotDate] = slots_booked[slotDate].filter(slot => slot !== slotTime);
+
+        await doctorModel.findByIdAndUpdate(docId, {slots_booked});
+
+        res.json({success: true, message: "Appointment cancelled successfully"});
+
+
+
+
+    }
+    catch(error){
+        console.log(error.message);
+        res.status(500).json({ success: false, message: "Internal server error", error: error.message });
+
+    }
+    }
+
+
+export {registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment};
 //create a route for this register function

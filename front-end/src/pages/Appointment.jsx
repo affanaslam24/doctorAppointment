@@ -130,7 +130,9 @@ const bookAppointment = async ()=> {
 
       console.log(slotDate)
 
-      const {data} = await axios.post(backendURL + '/api/user/book-appointment', {docId, slotDate, slotTime},
+      // sending docId, slotDate, slotTime to the backend, where controller is making use of it
+      const {data} = await axios.post(backendURL + '/api/user/book-appointment', 
+        {docId, slotDate, slotTime},
         {headers: {token}}
       )
 
