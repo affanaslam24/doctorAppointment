@@ -18,7 +18,7 @@ const Contact = () => {
       <p className=' font-semibold text-lg text-gray-600  '>OUR OFFICE</p>
        <p className=' text-gray-500'>00000 Shouryya Manna <br />Suite 000, Baruipur, India</p>
        <p className=' text-gray-500 '>Tel: (000) 000-0000 <br />Email: dope@gmail.com</p>
-       <p className=' font-semibold text-lg text-gray-600  '>CAREERS AT TRUEMEDS</p>
+       <p className=' font-semibold text-lg text-gray-600  '>CAREERS AT MedSchedule</p>
        <p className=' text-gray-500'>Learn more about our teams and job openings.</p>
        <button className=' border border-black px-8 py-4 text-sm hover:bg-black hover:text-white transition-all duration-500    '>Explore Jobs</button>
 

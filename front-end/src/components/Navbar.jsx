@@ -5,23 +5,28 @@ import { AppContext } from "../Context/AppContext";
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const {token, setToken, userData} = useContext(AppContext);
+  const { token, setToken, userData } = useContext(AppContext);
 
   const [showMenu, setShowMenu] = useState(false);
   //we are remving the token and getting it from the context
-  // why? because 
-  //const [token, setToken] = useState(true); 
+  // why? because
+  //const [token, setToken] = useState(true);
 
   const logout = () => {
-    setToken(false)
+    setToken(false);
     localStorage.removeItem("token");
-
-  }
-
+  };
 
   return (
     <div className="flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400">
-      <img onClick={ ()=> {navigate('./')}} className="w-44 cursor-pointer" src={assets.logo} alt="" />
+      <img
+        onClick={() => {
+          navigate("./");
+        }}
+        className="w-16 cursor-pointer"
+        src={assets.logo}
+        alt=""
+      />
       <ul className="hidden md:flex items-center gap-8 font-medium">
         <NavLink to="/">
           <li className="py-1">Home</li>
@@ -59,10 +64,7 @@ const Navbar = () => {
                 >
                   My Appointments
                 </p>
-                <p
-                  onClick={logout}
-                  className="hover:text-black cursor-pointer"
-                >
+                <p onClick={logout} className="hover:text-black cursor-pointer">
                   Logout
                 </p>
               </div>
@@ -76,60 +78,65 @@ const Navbar = () => {
             Create Account
           </button>
         )}
-        <img onClick={()=> setShowMenu(true)} className=" w-6 md:hidden " src={assets.menu_icon} alt="" />
-         
-         {/* ------ Mobile Menu ------- */}
+        <img
+          onClick={() => setShowMenu(true)}
+          className=" w-6 md:hidden "
+          src={assets.menu_icon}
+          alt=""
+        />
 
-         <div className={` ${showMenu ? ' fixed w-full' : ' h-0 w-0 '} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
+        {/* ------ Mobile Menu ------- */}
 
-         <div className=" flex items-center justify-between px-5 py-6  "  >
-          <img className=" w-36" src={assets.logo} alt="" />
-          <img className=" w-7" onClick={()=> setShowMenu(false)} src={assets.cross_icon} alt="" />
-          
-         </div>
+        <div
+          className={` ${
+            showMenu ? " fixed w-full" : " h-0 w-0 "
+          } md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}
+        >
+          <div className=" flex items-center justify-between px-5 py-6  ">
+            <img onClick={() => {navigate('./')}} className="w-16 md:w-32 cursor-pointer" src={assets.logo} alt="" />
+            <img
+              className=" w-7"
+              onClick={() => setShowMenu(false)}
+              src={assets.cross_icon}
+              alt=""
+            />
+          </div>
 
-         <ul className=" flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium  ">
-         <NavLink
-  to="/"
-  onClick={() => setShowMenu(false)}
-  className={({ isActive }) => (isActive ? "active" : "")}
->
-  <p className="px-2 py-2 rounded inline-block">Home</p>
-</NavLink>
+          <ul className=" flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium  ">
+            <NavLink
+              to="/"
+              onClick={() => setShowMenu(false)}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              <p className="px-2 py-2 rounded inline-block">Home</p>
+            </NavLink>
 
-<NavLink
-  to="/doctors"
-  onClick={() => setShowMenu(false)}
-  className={({ isActive }) => (isActive ? "active" : "")}
->
-  <p className="px-2 py-2 rounded inline-block">ALL DOCTORS</p>
-</NavLink>
+            <NavLink
+              to="/doctors"
+              onClick={() => setShowMenu(false)}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              <p className="px-2 py-2 rounded inline-block">ALL DOCTORS</p>
+            </NavLink>
 
-<NavLink
-  to="/about"
-  onClick={() => setShowMenu(false)}
-  className={({ isActive }) => (isActive ? "active" : "")}
->
-  <p className="px-2 py-2 rounded inline-block">ABOUT</p>
-</NavLink>
+            <NavLink
+              to="/about"
+              onClick={() => setShowMenu(false)}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              <p className="px-2 py-2 rounded inline-block">ABOUT</p>
+            </NavLink>
 
-<NavLink
-  to="/contact"
-  onClick={() => setShowMenu(false)}
-  className={({ isActive }) => (isActive ? "active" : "")}
->
-  <p className="px-2 py-2 rounded inline-block">CONTACTUS</p>
-</NavLink>
-
-
-
-
-         </ul>
-
-         </div>
-        
-        
+            <NavLink
+              to="/contact"
+              onClick={() => setShowMenu(false)}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              <p className="px-2 py-2 rounded inline-block">CONTACTUS</p>
+            </NavLink>
+          </ul>
         </div>
+      </div>
     </div>
   );
 };
